@@ -18,12 +18,16 @@ class ExampleApp(QtGui.QMainWindow, bsui.Ui_MainWindow):
         self.npoints.setMaximum(10)
         self.points = 1000 #number of data points
         self.X = np.arange(self.points)
-
+        self.selection.addItem("Sine")
+        self.selection.addItem("Cosine")
 
     def update(self):
         X = self.X
         t1 = time.clock()
-        Y = self.sine()
+        if self. selection.currentText() == "Sine":
+            Y = self.sine()
+        elif self.selection.currentText() == "Cosine":
+            Y = self.cosine()
         C = pyqtgraph.hsvColor(time.time() / 5%1, alpha=.5)
         pen = pyqtgraph.mkPen(color=C, width=5)
         self.plotter.plot(X,Y,pen=pen,clear=True)
@@ -33,14 +37,13 @@ class ExampleApp(QtGui.QMainWindow, bsui.Ui_MainWindow):
 
     def sine(self):
         self.c = self.npoints.value()
-        Y = np.sin(np.arange(self.points) / self.points * self.c * np.pi + time.time())
+        Y = np.cos(np.arange(self.points) / self.points * self.c * np.pi + time.time())
         return Y
 
-    def exponential(self):
+    def cosine(self):
         self.c = self.npoints.value()
-        Y = np.exp()
-
-
+        Y = np.sin(np.arange(self.points) / self.points * self.c * np.pi + time.time())
+        return Y
 
 if __name__=="__main__":
     app = QtGui.QApplication(sys.argv)
